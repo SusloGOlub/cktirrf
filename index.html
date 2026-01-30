@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=480">
+    <title>Флешка з церковними піснями</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: #f5f5f5; 
+            min-width: 480px;
+            color: #333;
+        }
+        
+        .container { max-width: 480px; margin: 0 auto; background: #fff; }
+        
+        /* Trust Block */
+        .trust-block {
+            background: linear-gradient(180deg, #b55400 0%, #d4701a 100%);
+            color: #fff;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .trust-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stars-rating {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .stars-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .star {
+            font-size: 20px;
+            color: #ffd700;
+        }
+        
+        .star.half {
+            background: linear-gradient(90deg, #ffd700 50%, #ccc 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .star.empty {
+            color: #ccc;
+        }
+        
+        .rating-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        
+        .trust-right {
+            text-align: right;
+        }
+        
+        .purchases {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .purchases-count {
+            display: inline-block;
+            background: #fff;
+            color: #b55400;
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        
+        .last-order {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+        
+        /* Header */
+        .header {
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #333;
+            text-transform: uppercase;
+        }
+        
+        /* Product Image */
+        .product-image {
+            position: relative;
+            text-align: center;
+        }
+        
+        .product-image img {
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 20px;
+            right: 0;
+            background: #ff2933;
+            color: #fff;
+            padding: 8px 25px;
+            font-size: 18px;
+            font-weight: 700;
+            transform: rotate(45deg) translate(30px, -10px);
+        }
+        
+        /* Benefits */
+        .benefits {
+            background: #b55400;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            font-size: 13px;
+        }
+        
+        .benefit-item {
+            flex: 1;
+        }
+        
+        /* Pricing */
+        .pricing {
+            display: flex;
+            padding: 20px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .price-box {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .old-price {
+            border-right: 1px solid #eee;
+        }
+        
+        .price-label {
+            font-size: 14px;
+            color: #666;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .old-price .price-value {
+            font-size: 32px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .new-price .price-value {
+            font-size: 48px;
+            color: #b55400;
+            font-weight: 700;
+        }
+        
+        .price-currency {
+            font-size: 18px;
+        }
+        
+        /* Button */
+        .btn-order {
+            display: block;
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: #b55400;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-order:hover {
+            background: #8f4200;
+        }
+        
+        /* Stock */
+        .stock {
+            text-align: center;
+            padding: 15px;
+            background: #fff5f0;
+            color: #b55400;
+            font-size: 16px;
+        }
+        
+        .stock strong {
+            color: #ff2933;
+            font-size: 24px;
+        }
+        
+        .stock-update {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* Timer */
+        .timer-block {
+            background: #b55400;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .timer-title {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .timer-dates {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .timer-note {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        /* Discount Block */
+        .discount-info {
+            padding: 20px;
+            background: #fff5f0;
+            text-align: center;
+        }
+        
+        .discount-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .discount-info h4 {
+            color: #ff2933;
+        }
+        
+        /* Description */
+        .description {
+            padding: 20px;
+            background: #fff;
+        }
+        
+        .description h2 {
+            color: #b55400;
+            font-size: 22px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .description h3 {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0 10px;
+        }
+        
+        .description p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .description img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        /* Reviews */
+        .reviews {
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .reviews h3 {
+            text-align: center;
+            color: #b55400;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .review-item {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .review-text {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: 700;
+            color: #b55400;
+        }
+        
+        /* Steps */
+        .steps {
+            padding: 20px;
+            background: #fff;
+        }
+        
+        .steps h2 {
+            text-align: center;
+            color: #b55400;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .step-content h4 {
+            color: #b55400;
+            margin-bottom: 5px;
+        }
+        
+        .step-content p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .step-content .highlight {
+            color: #b55400;
+            font-weight: 600;
+        }
+        
+        /* Order Form */
+        .order-section {
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .order-section h2 {
+            text-align: center;
+            color: #b55400;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .order-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #b55400;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 20px;
+            background: #28a745;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background: #218838;
+        }
+        
+        /* Ad Banner */
+        .ad-banner {
+            padding: 20px;
+            background: #fff;
+        }
+        
+        .ad-banner img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 20px;
+            background: #333;
+            text-align: center;
+        }
+        
+        .footer a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal h2 {
+            color: #ff2933;
+            margin-bottom: 15px;
+        }
+        
+        .modal .discount-amount {
+            font-size: 32px;
+            color: #28a745;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+        
+        .modal .timer {
+            font-size: 36px;
+            color: #ff2933;
+            font-weight: 700;
+        }
+        
+        .btn-modal {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #d4edda;
+            border-radius: 8px;
+        }
+        
+        .success-message h3 {
+            color: #155724;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            color: #155724;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        /* Visitor Counter */
+        .visitor-counter {
+            position: fixed;
+            right: 0;
+            top: 200px;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 8px 0 0 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 99;
+            font-size: 13px;
+        }
+        
+        .visitor-counter strong {
+            color: #b55400;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Visitor Counter -->
+        <div class="visitor-counter">
+            <div>Зараз на сайті:</div>
+            <div><strong id="visitorCount">12</strong> люд.</div>
+        </div>
+
+        <!-- Trust Block -->
+        <div class="trust-block">
+            <div class="trust-left">
+                <div class="stars-rating">
+                    <div class="stars-row">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star half">★</span>
+                    </div>
+                    <div class="rating-text">Рейтинг магазину 4.8/5</div>
+                </div>
+            </div>
+            <div class="trust-right">
+                <div class="purchases">Куплено сьогодні: <span class="purchases-count">19 шт.</span></div>
+                <div class="last-order">Останнє замовлення: 10 хв тому</div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Хочеш слухати улюблену музику без інтернету?</h1>
+        </div>
+
+        <!-- Product Image -->
+        <div class="product-image">
+            <div class="discount-badge">61% знижка</div>
+            <img src="images/new1.jpg" alt="Флешка з церковними піснями">
+        </div>
+
+        <!-- Benefits -->
+        <div class="benefits">
+            <div class="benefit-item">100% гарантія якості</div>
+            <div class="benefit-item">Обмежена пропозиція</div>
+            <div class="benefit-item">Оплата при отриманні</div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="pricing">
+            <div class="price-box old-price">
+                <span class="price-label">Звичайна ціна</span>
+                <span class="price-value">1025<span class="price-currency"> грн</span></span>
+            </div>
+            <div class="price-box new-price">
+                <span class="price-label">Акційна ціна</span>
+                <span class="price-value">399<span class="price-currency"> грн</span></span>
+            </div>
+        </div>
+
+        <!-- Order Button -->
+        <a href="#order_form" class="btn-order">ЗРОБИТИ ЗАМОВЛЕННЯ</a>
+
+        <!-- Stock -->
+        <div class="stock">
+            <div>Залишилося: <strong>13</strong> шт по акції!</div>
+            <div class="stock-update">(Оновлено 30 хв назад)</div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-block">
+            <div class="timer-title">Знижка доступна</div>
+            <div class="timer-dates">з <span class="date-from">18.01.2026</span> по <span class="date-to">01.02.2026</span></div>
+            <div class="timer-note">*- Ціну знижено через випуск нової моделі.</div>
+        </div>
+
+        <!-- Discount Info -->
+        <div class="discount-info">
+            <h3>Купуй більше — плати менше!</h3>
+            <h4>Купуєш 2 шт ➡️ знижка -100 грн!</h4>
+        </div>
+
+        <!-- Description -->
+        <div class="description">
+            <h2>🎁 Музика для душі — у будь-який час і в будь-якому місці! 🎁</h2>
+            
+            <h3>🌿 Ідеально підійде для:</h3>
+            <p>
+                – Для домашньої молитви та духовних роздумів<br>
+                – USB-аудіосистемами<br>
+                – Для тихих вечорів, коли хочеться спокою<br>
+                – Для дороги — як підтримка і заспокоєння<br>
+                – Для церковних свят і підготовки до них<br>
+                – Як подарунок близькій людині зі змістом і теплом
+            </p>
+            
+            <img src="images/new2.jpg" alt="Пара слухає церковну музику">
+            
+            <p><strong>Українські церковні піснеспіви — музика молитви та віри.</strong></p>
+            
+            <p>На флешці зібрані духовні пісні, які допомагають зосередитись на молитві, знайти внутрішній спокій і відчути Божу присутність.</p>
+            
+            <p>Кожен спів — щирий, наповнений світлом і надією. Для домашньої молитви, духовних роздумів і святкових днів.</p>
+            
+            <img src="images/4.jpg" alt="Церква">
+        </div>
+
+        <!-- Order Button -->
+        <a href="#order_form" class="btn-order">ЗРОБИТИ ЗАМОВЛЕННЯ</a>
+
+        <!-- Reviews -->
+        <div class="reviews">
+            <h3>ВІДГУКИ ПОКУПЦІВ</h3>
+            
+            <div class="review-item">
+                <p class="review-text">"Дуже душевна підбірка. Слухаю щодня вдома, пісні заспокоюють і налаштовують на молитву. Дякую за український формат."</p>
+                <p class="review-author">— Анатолій</p>
+            </div>
+            
+            <div class="review-item">
+                <p class="review-text">"Купували для мами — вона в захваті. Зручно, що не потрібен інтернет, просто вставив і слухаєш."</p>
+                <p class="review-author">— Антон</p>
+            </div>
+            
+            <div class="review-item">
+                <p class="review-text">"Якісний запис, приємні голоси, все звучить чисто. Відчувається, що пісні підібрані з душею."</p>
+                <p class="review-author">— Олена</p>
+            </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps">
+            <h2>Як замовити?</h2>
+            
+            <div class="step-item">
+                <div class="step-icon">
+                    <img src="images/man-technologist-apple.png" alt="Заявка">
+                </div>
+                <div class="step-content">
+                    <h4>ЗАЛИШІТЬ ЗАЯВКУ</h4>
+                    <p>Залишіть заявку на сайті за допомогою кнопки <span class="highlight">«ЗАМОВИТИ ЗАРАЗ»</span></p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-icon">
+                    <img src="images/phone.png" alt="Дзвінок">
+                </div>
+                <div class="step-content">
+                    <h4>ДОЧЕКАЙТЕСЬ ДЗВІНКА</h4>
+                    <p>Ми якомога швидше вам зателефонуємо, щоб уточнити всі деталі та <span class="highlight">підтвердити ваше замовлення</span></p>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-icon">
+                    <img src="images/package-apple.png" alt="Доставка">
+                </div>
+                <div class="step-content">
+                    <h4>ОТРИМАЙТЕ ПОСИЛКУ</h4>
+                    <p>Ми відправляємо товар Новою Поштою без передоплат. Через 1-2 дні <span class="highlight">ви зможете оглянути та оплатити при отриманні</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Form Section -->
+        <div class="order-section" id="order_form">
+            <h2>Хочеш слухати улюблену музику без інтернету?</h2>
+            
+            <div class="pricing" style="margin-bottom: 20px;">
+                <div class="price-box old-price">
+                    <span class="price-label">Звичайна ціна</span>
+                    <span class="price-value">1025<span class="price-currency"> грн</span></span>
+                </div>
+                <div class="price-box new-price">
+                    <span class="price-label">Акційна ціна</span>
+                    <span class="price-value">399<span class="price-currency"> грн</span></span>
+                </div>
+            </div>
+            
+            <div class="order-form">
+                <form id="orderForm">
+                    <input type="hidden" id="is_discounted" value="0">
+                    
+                    <div class="form-group">
+                        <select id="quantity" name="quantity" required>
+                            <option value="" disabled selected>▼ Обрати кількість (шт.)</option>
+                            <option value="1" data-price="399">1 шт — 399 грн</option>
+                            <option value="2" data-price="698">2 шт — 698 грн (знижка -100 грн)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Введіть Ваше ім'я" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" placeholder="+38 (___) ___-__-__" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Придбати зараз</button>
+                </form>
+                
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">✓</div>
+                    <h3>Дякуємо за замовлення!</h3>
+                    <p>Ваша заявка успішно відправлена.</p>
+                    <p>Наш менеджер зателефонує вам найближчим часом для підтвердження замовлення.</p>
+                    <p><strong>Бажаємо вам мирного неба над головою!</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Banner -->
+        <div class="ad-banner">
+            <img src="images/ad1.jpg" alt="Акція">
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <a href="#">ОПЛАТА ТА ДОСТАВКА</a>
+            <a href="#">ПУБЛІЧНА ОФЕРТА</a>
+            <a href="#">ПОЛІТИКА КОНФІДЕНЦІЙНОСТІ</a>
+            <a href="#">ФАЙЛИ COOKIE</a>
+        </div>
+    </div>
+
+    <!-- Discount Modal -->
+    <div class="modal" id="discountModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Залишилось останні 3 акційні штуки</h2>
+            <p>Замовте протягом <span id="timer" class="timer">5:00</span> хвилин і отримайте</p>
+            <p class="discount-amount">20 грн ЗНИЖКИ!</p>
+            <button class="btn-modal" onclick="applyDiscount()">Отримати знижку</button>
+            <p style="font-size: 12px; color: #666;">Поспішайте! Ця пропозиція зникає назавжди через 5 хвилин!</p>
+        </div>
+    </div>
+
+    <script>
+        // Telegram Settings
+        const TELEGRAM_BOT_TOKEN = '8146762645:AAE0yhZAzal39mxXedwjHFqxiWPAe6-yzyA';
+        const TELEGRAM_CHAT_ID = '1003765789817';
+
+        // Visitor Counter
+        document.getElementById('visitorCount').textContent = Math.floor(Math.random() * (20 - 8 + 1)) + 8;
+
+        // Set Dates
+        const today = new Date();
+        const dateFrom = new Date(today);
+        dateFrom.setDate(today.getDate() - 13);
+        const dateTo = new Date(today);
+        dateTo.setDate(today.getDate() + 1);
+
+        document.querySelector('.date-from').textContent = dateFrom.toLocaleDateString('uk-UA');
+        document.querySelector('.date-to').textContent = dateTo.toLocaleDateString('uk-UA');
+
+        // Phone Mask
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.startsWith('38')) value = value.slice(2);
+            if (value.length > 10) value = value.slice(0, 10);
+            
+            let formatted = '+38';
+            if (value.length > 0) formatted += ' (' + value.slice(0, 3);
+            if (value.length >= 3) formatted += ')';
+            if (value.length > 3) formatted += ' ' + value.slice(3, 6);
+            if (value.length > 6) formatted += '-' + value.slice(6, 8);
+            if (value.length > 8) formatted += '-' + value.slice(8, 10);
+            
+            e.target.value = formatted;
+        });
+
+        // Discount Modal
+        setTimeout(function() {
+            document.getElementById('discountModal').classList.add('active');
+            
+            let timeLeft = 300;
+            const timerInterval = setInterval(function() {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('discountModal').classList.remove('active');
+                } else {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    document.getElementById('timer').textContent = 
+                        minutes + ':' + (seconds < 10 ? '0' + seconds : seconds);
+                    timeLeft--;
+                }
+            }, 1000);
+        }, 240000);
+
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.getElementById('discountModal').classList.remove('active');
+        });
+
+        function applyDiscount() {
+            document.getElementById('is_discounted').value = '1';
+            document.getElementById('discountModal').classList.remove('active');
+            alert('Знижка 20 грн активована!');
+        }
+
+        // Order Form Submit
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const quantitySelect = document.getElementById('quantity');
+            const quantity = quantitySelect.value;
+            const quantityText = quantitySelect.options[quantitySelect.selectedIndex].text;
+            const isDiscounted = document.getElementById('is_discounted').value;
+            
+            // Calculate price
+            let price = quantity == '1' ? 399 : 698;
+            let discountInfo = quantity == '2' ? ' (знижка -100 грн)' : '';
+            if (isDiscounted == '1') {
+                price -= 20;
+                discountInfo += ' + персональна знижка -20 грн';
+            }
+            
+            // Prepare message
+            const message = `
+🛒 <b>НОВЕ ЗАМОВЛЕННЯ!</b>
+
+📦 <b>Товар:</b> Флешка з церковними піснями
+👤 <b>Ім'я:</b> ${name}
+📞 <b>Телефон:</b> ${phone}
+📊 <b>Кількість:</b> ${quantityText}${discountInfo}
+💰 <b>Сума до оплати:</b> ${price} грн
+🕐 <b>Час замовлення:</b> ${new Date().toLocaleString('uk-UA')}
+            `.trim();
+            
+            // Send to Telegram
+            sendToTelegram(message);
+        });
+
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    showSuccess();
+                } else {
+                    console.error('Telegram error:', data);
+                    showSuccess(); // Still show success to user
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showSuccess(); // Still show success to user
+            });
+        }
+
+        function showSuccess() {
+            // Перенаправляем на страницу благодарности
+            window.location.href = 'thanks.html';
+        }
+    </script>
+</body>
+</html>
